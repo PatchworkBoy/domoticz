@@ -95,6 +95,21 @@
 		case 'GTE':
 		  operand = ' >= ';
 		  break;
+		case 'ADD':
+		  operand = ' ADD '; //Blockly.Lua.ORDER_ADDITIVE
+		  break;
+		case ' SUB ':
+		  operand = ' SUB '; //Blockly.Lua.ORDER_ADDITIVE;
+		  break;
+		case ' MUL ':
+		  operand = ' MUL '; //Blockly.Lua.ORDER_MULTIPLICATIVE;
+		  break;
+		case ' DIV ':
+		  operand = ' DIV '; //Blockly.Lua.ORDER_MULTIPLICATIVE;
+		  break;
+		case ' POWER ':
+		  operand = ' POW '; //Blockly.Lua.ORDER_EXPONENTIATION;
+		  break;
 		default:
 		} 
 		return operand;		     
@@ -314,10 +329,20 @@
 					var fieldB = $(valueB).find("field")[0];
 					var blockB = $(valueB).children("block:first");
 					var variableTypeB = $(valueB).children("block:first").attr("type");
-					var dtext=GetValueText(valueB,variableTypeB);
-					setString += '='+dtext+''; 
-					setArray.push(setString);
-								
+					if ((blockB.attr("type")=="math_arithmetic")) {
+						var valueC = blockB.find("value[name='A']");
+						var valueD = blockB.find("value[name='B']").find("title").text();
+						var variableTypeC = $(valueC).children("block:first").attr("type");
+						var locOperand = opSymbol(blockB.children("title:first").text());
+						var varTextC=GetValueText(valueC,variableTypeC);
+						setString += '= "'+varTextC+locOperand+valueD+'"';
+						console.log(setString);
+						setArray.push(setString);
+					} else {
+						var dtext=GetValueText(valueB,variableTypeB);
+						setString += '='+dtext+'';
+						setArray.push(setString);
+					}
 				}
 				else {
 					var setString = "commandArray["+$(fieldA).text()+"]";
@@ -336,6 +361,20 @@
 					//	setString += '="'+$(fieldB).text()+'"'; 
 					//	setArray.push(setString);
 					//}
+					
+					// else if ((blockB.attr("type")=="math_arithmetic")) {
+					//	console.log('Am NOT a User Var!');
+					//	console.log($(valueB).children("block"));
+					//	var valueC = blockB.find("value[name='A']");
+					//	var valueD = blockB.find("value[name='B']").find("title").text();
+					//	console.log(valueD);
+					//	var variableTypeC = $(valueC).children("block:first").attr("type");
+					//	var locOperand = opSymbol(blockB.children("title:first").text());
+					//	var varTextC=GetValueText(valueC,variableTypeC);
+					//	setString += '="'+varTextC+locOperand+valueD+'"';
+					//	console.log(setString);
+					//	setArray.push(setString);
+					// }
 				}
 		    }
 	      	else if ($(this).attr('type') == 'logic_setafter') {
