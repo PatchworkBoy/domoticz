@@ -1933,45 +1933,41 @@ bool CEventSystem::parseBlocklyActions(const std::string &Actions, const std::st
 			{
 				int afterTimerSeconds = 0;
 				size_t aFind = doWhat.find(" AFTER ");
-				if ((aFind > 0) && (aFind != std::string::npos)) {
-					std::string delayString = doWhat.substr(aFind + 7);
-					std::string newAction = doWhat.substr(0, aFind);
-					afterTimerSeconds = atoi(delayString.c_str());
-					doWhat = newAction;
-				}
-				/* PatchworkBoy - something needs to happen here I suspect to account for 
-				// math_arithmetic operators... eg, doWhat.find(" ADD "); 
-				
 				size_t addFind = doWhat.find(" ADD ");
 				size_t subFind = doWhat.find(" SUB ");
 				size_t mulFind = doWhat.find(" MUL ");
 				size_t divFind = doWhat.find(" DIV ");
 				size_t powFind = doWhat.find(" POW ");
-				if ((addFind > 0) && (addFind != std::string::npos)){
-					std::float arithnumber = doWhat.substr(adFind + 5);
+				if ((aFind > 0) && (aFind != std::string::npos)) {
+					std::string delayString = doWhat.substr(aFind + 7);
+					std::string newAction = doWhat.substr(0, aFind);
+					afterTimerSeconds = atoi(delayString.c_str());
+					doWhat = newAction;
+				} else if ((addFind > 0) && (addFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(addFind + 5);
 					std::string arithPartial = ProcessVariableArgument(doWhat);
 					doWhat = string((float)arithPartial + arithnumber);
 				} else if ((subFind > 0) && (subFind != std::string::npos)){
-					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::float arithnumber = doWhat.substr(subFind + 5);
 					std::string arithPartial = ProcessVariableArgument(doWhat);
 					doWhat = string((float)arithPartial - arithnumber);
 				} else if ((mulFind > 0) && (mulFind != std::string::npos)){
-					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::float arithnumber = doWhat.substr(mulFind + 5);
 					std::string arithPartial = ProcessVariableArgument(doWhat);
 					doWhat = string((float)arithPartial * arithnumber);
 				} else if ((divFind > 0) && (divFind != std::string::npos)){
-					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::float arithnumber = doWhat.substr(divFind + 5);
 					std::string arithPartial = ProcessVariableArgument(doWhat);
 					doWhat = string((float)arithPartial / arithnumber);
 				} else if ((powFind > 0) && (powFind != std::string::npos)){
-					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::float arithnumber = doWhat.substr(powFind + 5);
 					std::string arithPartial = ProcessVariableArgument(doWhat);
 					doWhat = string(pow((float)arithPartial,arithnumber));
-				} else {
+				}
+				
+				if ((aFind > 0) && (aFind != std::string::npos)) {
 					doWhat = ProcessVariableArgument(doWhat);
 				}
-				*/
-				doWhat = ProcessVariableArgument(doWhat);
 				
 				if (afterTimerSeconds == 0)
 				{
