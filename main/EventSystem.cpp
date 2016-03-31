@@ -1939,7 +1939,40 @@ bool CEventSystem::parseBlocklyActions(const std::string &Actions, const std::st
 					afterTimerSeconds = atoi(delayString.c_str());
 					doWhat = newAction;
 				}
+				/* PatchworkBoy - something needs to happen here I suspect to account for 
+				// math_arithmetic operators... eg, doWhat.find(" ADD "); 
+				
+				size_t addFind = doWhat.find(" ADD ");
+				size_t subFind = doWhat.find(" SUB ");
+				size_t mulFind = doWhat.find(" MUL ");
+				size_t divFind = doWhat.find(" DIV ");
+				size_t powFind = doWhat.find(" POW ");
+				if ((addFind > 0) && (addFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::string arithPartial = ProcessVariableArgument(doWhat);
+					doWhat = string((float)arithPartial + arithnumber);
+				} else if ((subFind > 0) && (subFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::string arithPartial = ProcessVariableArgument(doWhat);
+					doWhat = string((float)arithPartial - arithnumber);
+				} else if ((mulFind > 0) && (mulFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::string arithPartial = ProcessVariableArgument(doWhat);
+					doWhat = string((float)arithPartial * arithnumber);
+				} else if ((divFind > 0) && (divFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::string arithPartial = ProcessVariableArgument(doWhat);
+					doWhat = string((float)arithPartial / arithnumber);
+				} else if ((powFind > 0) && (powFind != std::string::npos)){
+					std::float arithnumber = doWhat.substr(adFind + 5);
+					std::string arithPartial = ProcessVariableArgument(doWhat);
+					doWhat = string(pow((float)arithPartial,arithnumber));
+				} else {
+					doWhat = ProcessVariableArgument(doWhat);
+				}
+				*/
 				doWhat = ProcessVariableArgument(doWhat);
+				
 				if (afterTimerSeconds == 0)
 				{
 					std::vector<std::vector<std::string> > result;
